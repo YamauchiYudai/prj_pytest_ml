@@ -1,0 +1,51 @@
+name: CI/CD Pipeline for MNIST Classification
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  lint_and_format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker compose build
+
+      - name: Run Pysen (Lint & Format Check)
+        run: |
+          docker compose run --rm app pysen run lint
+          docker compose run --rm app pysen run format --check
+
+  test:
+    needs: lint_and_format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker compose build
+
+      - name: Run Pytest
+        run: docker compose run --rm app pytest
+
+  # deploy:
+  #   needs: test
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
+  #     - name: Deploy to Production (Example - Replace with actual deployment steps)
+  #       run: echo "Deploying to production..."
+  #       # ここに本番環境へのデプロイコマンドを追加します。
+  #       # 例: AWS ECS, Kubernetes, Herokuなどへのデプロイコマンド
