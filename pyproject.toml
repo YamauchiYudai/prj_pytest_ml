@@ -11,6 +11,10 @@ line_length = 88
   [[tool.pysen.lint.mypy_targets]]
     paths = ["src"]
 
+[tool.pysen.lint.mypy_config]
+python_version = "3.9"
+ignore_missing_imports = true
+
 [tool.isort]
 profile = "black"
 line_length = 88

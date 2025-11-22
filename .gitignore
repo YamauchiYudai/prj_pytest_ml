@@ -1,3 +1,12 @@
+# --- Project specific paths ---
 /data
 /.github/workflows/inf.txt
+
+# --- Cache directories ---
 *cache/
+__pycache__/
+
+# --- Python bytecode ---
+*.pyc
+*.pyo
+*.pyd
