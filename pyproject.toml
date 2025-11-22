@@ -19,5 +19,9 @@ line_length = 88
 python_version = "3.9"
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = ["torch.*"]
+follow_imports = "skip"
+
 [tool.black]
 line-length = 88
